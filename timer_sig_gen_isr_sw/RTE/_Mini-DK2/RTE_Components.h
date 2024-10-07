@@ -3,7 +3,7 @@
  * Auto generated Run-Time-Environment Configuration File
  *      *** Do not modify ! ***
  *
- * Project: 'timer_sig_gen_hw' 
+ * Project: 'timer_sig_gen_isr_sw' 
  * Target:  'Mini-DK2' 
  */
 
