@@ -1,3 +1,4 @@
-# qei_position_sensing
+# dac_tone_gen
 
-Este es un ejemplo del uso del módulo QEI para determinar la posición del eje de un encoder rotatorio.
+Este es un ejemplo del uso del DAC para generar un tono de frecuencia programable.
+

@@ -22,11 +22,11 @@ void init_hw(float Tout) {
   uint32_t MRx;
   
   // Pin Function Select Register: P3.25 pin as MAT0.0
-  LPC_PINCON->PINSEL7  &= ~(0x3 << 18);
+  LPC_PINCON->PINSEL7  &= ~(0x3U << 18);
   LPC_PINCON->PINSEL7  |= 0x2 << 18;
   
   LPC_SC->PCONP     |= PCTIM0;        // Power up Timer 0
-  LPC_SC->PCLKSEL0  &= ~(0x3 << 2);   // TIMER0 clk = PCLK (CCLK/4)
+  LPC_SC->PCLKSEL0  &= ~(0x3U << 2);  // TIMER0 clk = PCLK (CCLK/4)
 
   LPC_TIM0->MCR |= MR0R;              // MR0: clear cnt
   
@@ -35,7 +35,7 @@ void init_hw(float Tout) {
   LPC_TIM0->MR0 = MRx;
 
   LPC_TIM0->EMR |=  0x01;             // set MAT0.0
-  LPC_TIM0->EMR &= ~0x01;             // clr MAT0.0
+  LPC_TIM0->EMR &= ~0x01U;            // clr MAT0.0
   LPC_TIM0->EMR |= (0x3 << 4) ;       // MAT0.0 toggle on match
     
   LPC_TIM0->TCR = CNT_RST;            // Reset the timer 0

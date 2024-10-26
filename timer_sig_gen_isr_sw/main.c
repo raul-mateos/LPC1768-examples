@@ -44,13 +44,13 @@ void init_hw(void) {
   uint32_t MRx;
   
   // Pin Function Select Register: P0.1 pin as GPIO
-  LPC_PINCON->PINSEL0  &= ~(0x3 << 2);  
+  LPC_PINCON->PINSEL0  &= ~(0x3U << 2);  
   LPC_GPIO0->FIODIR |= PIN_MASK;  // set P0.1 as output
   LPC_GPIO0->FIOCLR = PIN_MASK;   // set P0.1 to 0
   
   
   LPC_SC->PCONP     |= PCTIM0;        // Power up Timer 0
-  LPC_SC->PCLKSEL0  &= ~(0x3 << 2);   // TIMER0 clk = PCLK (CCLK/4)
+  LPC_SC->PCLKSEL0  &= ~(0x3U << 2);  // TIMER0 clk = PCLK (CCLK/4)
 
   LPC_TIM0->MCR |= MR0R | MR0I;       // MR0: clear cnt & interrupt
   

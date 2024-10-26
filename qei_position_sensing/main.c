@@ -4,7 +4,7 @@
 #include "reg_masks.h"
 
 // QEI API:
-void QEI_config(float t_glitch);
+void QEI_cfg(float t_glitch);
 int QEI_get_angle(float *angle);
 
 // Board features:
@@ -13,7 +13,7 @@ int QEI_get_angle(float *angle);
 
 #define QEI_FUNCTION  0x1
 
-void QEI_config(float t_glitch) {
+void QEI_cfg(float t_glitch) {
   uint32_t filter;
 
   LPC_SC->PCLKSEL1  &= ~PCLK_QEI_MASK;
@@ -33,7 +33,7 @@ void QEI_config(float t_glitch) {
 
   // Interrupt configuration.
   // Because QEIIE register is read only;
-  LPC_QEI->QEIIEC = ~0x0;                         // first clear the register...
+  LPC_QEI->QEIIEC = ~0x0U;                        // first clear the register...
   LPC_QEI->QEIIES = QEI_ENCLK_INT | QEI_ERR_INT;  // ...and then enable the ints
   NVIC_SetPriority(QEI_IRQn, 4);
   NVIC_EnableIRQ(QEI_IRQn);
@@ -71,7 +71,7 @@ int main() {
   int encoder_dir;
   float t_glitch = 1.5e-3f;
   
-  QEI_config(t_glitch);
+  QEI_cfg(t_glitch);
 
   while(1) {
     

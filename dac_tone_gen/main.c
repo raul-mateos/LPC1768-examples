@@ -7,12 +7,12 @@
 #define F_CPU       (SystemCoreClock)
 #define F_PCLK      (F_CPU/4)
 
-void tone_conf(int freq);
+void tone_cfg(int freq);
 void tone_enable(int enable);
 
 int main() {
 
-  tone_conf(1000);
+  tone_cfg(1000);
   tone_enable(1);
 
   while(1);
@@ -59,7 +59,7 @@ static void tone_dac_cfg() {
   LPC_DAC->DACCTRL = 0;
 }
 
-static void tone_init_timer0(int freq) {
+static void tone_timer_cfg(int freq) {
   uint32_t mr;
   LPC_SC->PCONP |= PCTIM0;      // Timer 0 power On
   LPC_TIM0->PR = 0;             // Set prescaler to 1
@@ -76,7 +76,6 @@ static void tone_init_timer0(int freq) {
 }
 
 void TIMER0_IRQHandler(void) {
-  static int a = 0;
   LPC_TIM0->IR = MR0_INT;   // Clear int flag
   tone_gen_sample();
 }
@@ -88,8 +87,8 @@ void tone_enable(int enable) {
     LPC_TIM0->TCR &= ~CNT_EN;   // Count disabled
 }
 
-void tone_conf(int freq) {
+void tone_cfg(int freq) {
   tone_init_samples();
   tone_dac_cfg();
-  tone_init_timer0(freq);
+  tone_timer_cfg(freq);
 }

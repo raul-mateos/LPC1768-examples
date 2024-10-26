@@ -8,11 +8,11 @@
 #define F_PCLK      (F_CPU/4)
 
 // PWM generation API:
-void pwm_config(float Tpwm);
+void pwm_cfg(float Tpwm);
 void pwm_set_duty_cycle(float duty_cycle);
 
 // QEI API:
-void QEI_config(float t_glitch, float T_obs);
+void QEI_cfg(float t_glitch, float T_obs);
 int QEI_get_speed(float *speed_rpm);
 
 float dbg_motor_speed;
@@ -20,10 +20,10 @@ float dbg_motor_speed;
 int main() {
   float motor_speed = 0.0;
 
-  pwm_config(1.0/20e3);
+  pwm_cfg(1.0/20e3);
   pwm_set_duty_cycle(-1.0);
 
-  QEI_config(10e-6, 10e-3);
+  QEI_cfg(10e-6, 10e-3);
 
   while(1) {
     if(QEI_get_speed(&motor_speed)) {
@@ -52,12 +52,12 @@ void pwm_set_period(float Tpwm) {
   LPC_PWM1->LER |= M0LEN;         // PWM Latch Enable Register: Match 0 latch enabled
 }
 
-void pwm_config(float Tpwm) {
+void pwm_cfg(float Tpwm) {
   LPC_GPIO0->FIODIR |= (DIR_PIN_MASK);  // wheel dir pins as output
   LPC_GPIO0->FIOCLR  = (DIR_PIN_MASK);
 
-  LPC_PINCON->PINSEL7 &= ~(0x3 << 18);  // Clear P3.25 (PWM1.2) function
-  LPC_PINCON->PINSEL7 |=  (0x3 << 18);  // Set P3.25 as PWM1.2 output
+  LPC_PINCON->PINSEL7 &= ~(0x3U << 18); // Clear P3.25 (PWM1.2) function
+  LPC_PINCON->PINSEL7 |=  (0x3U << 18); // Set P3.25 as PWM1.2 output
 
   LPC_SC->PCONP |= PCPWM1;            // PWM1 power On
 
@@ -79,13 +79,13 @@ static uint32_t get_dc_code(float dc, int *dir) {
   if (dc < 0) {  // Active level = L
     abs_dc = -dc;
     *dir = DIR_NEG;
-    abs_dc_sat = (abs_dc > 1.0)? 1.0 : abs_dc;
+    abs_dc_sat = (abs_dc > 1.0f)? 1.0f : abs_dc;
     n_act = (uint32_t) ((1-abs_dc_sat)*m);
   }
   else {        // Active level = H
     abs_dc = +dc;
     *dir = DIR_POS;
-    abs_dc_sat = (abs_dc > 1.0)? 1.0 : abs_dc;
+    abs_dc_sat = (abs_dc > 1.0f)? 1.0f : abs_dc;
     n_act = (uint32_t) (abs_dc_sat*(m+1)-1);
   }
   return n_act;
@@ -119,7 +119,7 @@ void pwm_set_duty_cycle(float duty_cycle) {
 
 static float k_speed;
 
-void QEI_config(float t_glitch, float T_obs) {
+void QEI_cfg(float t_glitch, float T_obs) {
   uint32_t filter_code, n_obs;
 
   LPC_SC->PCLKSEL1  &= ~PCLK_QEI_MASK;
@@ -144,7 +144,7 @@ void QEI_config(float t_glitch, float T_obs) {
   k_speed = (60.0 * F_PCLK_QEI)/(EDGES * ENCODER_PPR * n_obs * R_GEARBOX);  // for wheel speed
 
   // Interrupt configuration. Because QEIIE register is read only:
-  LPC_QEI->QEIIEC = ~0x0;                   // first clear the register...
+  LPC_QEI->QEIIEC = ~0x0U;                  // first clear the register...
   LPC_QEI->QEIIES = QEI_TIM_INT;            // ...and then enable the ints
 
   NVIC_EnableIRQ(QEI_IRQn);
