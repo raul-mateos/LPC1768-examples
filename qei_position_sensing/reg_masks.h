@@ -314,5 +314,58 @@
 #define QEI_POS1REV_INT   0x0800U
 #define QEI_POS2REV_INT   0x1000U
 
+
+// UART:
+
+// UART: Line Control Register
+
+#define CHAR_5_BITS       0x00
+#define CHAR_6_BITS       0x01
+#define CHAR_7_BITS       0x02
+#define CHAR_8_BITS       0x03
+#define STOP_1_BIT        0x00
+#define STOP_2_BITS       0x04
+#define PARITY_ENABLE     0x08
+#define PARITY_EVEN       0x10
+#define PARITY_ODD        0x00
+#define BREAK_ENABLE      0x40
+#define DLAB_ENABLE       0x80
+
+// UART: Line Status Register
+
+#define UART_RX_RDY       0x01    // 0
+#define UART_OVR_ERR      0x02    // 1
+#define UART_PAR_ERR      0x04    // 2
+#define UART_FRAME_ERR    0x08    // 3
+#define UART_BREAK_ERR    0x10    // 4
+#define UART_TX_EMPTY     0x20    // 5
+#define UART_TX_IDLE      0x40    // 6
+#define UART_RX_FIFO_ERR  0x80    // 7
+
+#define UART_TX_RDY       UART_TX_EMPTY
+
+// UART: Interrupt Enable Register
+
+#define UART_RBR_IE       0x01    // 0
+#define UART_THRE_IE      0x02    // 1
+#define UART_ERROR_IE     0x04    // 0
+
+#define UART_RX_IE  UART_RBR_IE
+#define UART_TX_IE  UART_THRE_IE
+
+// UART: Interrupt Identification Register
+
+#define GET_INT_ID(x) (((x) >> 1) & 0x7)
+
+#define RLS_INT_ID      0x3   // Receive Line Status
+#define RDA_INT_ID      0x2   // Receive Data Available
+#define CTI_INT_ID      0x6   // Character Time-out Indicator
+#define THRE_INT_ID     0x1   // Transmitter Holding Register Empty
+
+
+#define UART_RX_IRQ   RDA_INT_ID
+#define UART_TX_IRQ   THRE_INT_ID
+
+
 #endif // REG_MASKS_H
 
