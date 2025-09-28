@@ -36,7 +36,7 @@ int main() {
 
 void pwm_set_period(float Tpwm) {
   uint32_t m;
-  m = (uint32_t)(F_PCLK*Tpwm-1);
+  m = (uint32_t)(F_PCLK*Tpwm);
   LPC_PWM1->MR0 = m;              // Match Register 0: set PWM period
   LPC_PWM1->LER |= M0LEN;         // PWM Latch Enable Register: Match 0 latch enabled
 }
@@ -45,7 +45,7 @@ float pwm_get_period(void) {
   float Tpwm;
   unsigned int m;
   m = LPC_PWM1->MR0;
-  Tpwm = ((float)(m+1))/F_PCLK;
+  Tpwm = ((float)m)/F_PCLK;
   return Tpwm;
 }
 
@@ -80,7 +80,7 @@ void pwm_set_duty_cycle(float duty_cycle) {
   duty_cycle = (duty_cycle < 0.0)? 0.0 : duty_cycle;
   
   m = LPC_PWM1->MR0;
-  n = (uint32_t) (duty_cycle*(m+1)-1);
+  n = (uint32_t) (duty_cycle*m);
   LPC_PWM1->MR2 = n;
   LPC_PWM1->LER |= M2LEN;
 }
@@ -91,7 +91,7 @@ float pwm_get_duty_cycle(void) {
 
   m = LPC_PWM1->MR0;
   n = LPC_PWM1->MR2;
-  duty_cycle = ((float)(n+1))/((float)(m+1));
+  duty_cycle = ((float)n)/((float)m);
   return duty_cycle;
 }
 
