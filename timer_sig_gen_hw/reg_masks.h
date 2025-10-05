@@ -251,23 +251,85 @@
 
 //--------------------------
 
+#define PCLK_CCLK_DIV_4   0x0
+#define PCLK_CCLK_DIV_1   0x1
+#define PCLK_CCLK_DIV_2   0x2
+#define PCLK_CCLK_DIV_8   0x3
+#define PCLK_CCLK_MASK    0x3
+
+#define PCLK_WDT_MASK       (PCLK_CCLK_MASK  << 00)           // Peripheral clock selection for the WDT
+#define PCLK_WDT_DIV_4      (PCLK_CCLK_DIV_4 << 00)
+#define PCLK_WDT_DIV_1      (PCLK_CCLK_DIV_1 << 00)
+#define PCLK_WDT_DIV_2      (PCLK_CCLK_DIV_2 << 00)
+#define PCLK_WDT_DIV_8      (PCLK_CCLK_DIV_8 << 00)
+
+#define PCLK_TIMER0_MASK    (PCLK_CCLK_MASK  << 02)           // Peripheral clock selection for the TIMER0
+#define PCLK_TIMER0_DIV_4   (PCLK_CCLK_DIV_4 << 02)
+#define PCLK_TIMER0_DIV_1   (PCLK_CCLK_DIV_1 << 02)
+#define PCLK_TIMER0_DIV_2   (PCLK_CCLK_DIV_2 << 02)
+#define PCLK_TIMER0_DIV_8   (PCLK_CCLK_DIV_8 << 02)
+
+#define PCLK_TIMER1_MASK    (PCLK_CCLK_MASK  << 04)           // Peripheral clock selection for the TIMER1
+#define PCLK_TIMER1_DIV_4   (PCLK_CCLK_DIV_4 << 04)
+#define PCLK_TIMER1_DIV_1   (PCLK_CCLK_DIV_1 << 04)
+#define PCLK_TIMER1_DIV_2   (PCLK_CCLK_DIV_2 << 04)
+#define PCLK_TIMER1_DIV_8   (PCLK_CCLK_DIV_8 << 04)
+
+#define PCLK_UART0_MASK     (PCLK_CCLK_MASK  << 06)           // Peripheral clock selection for the UART0
+#define PCLK_UART0_DIV_4    (PCLK_CCLK_DIV_4 << 06)
+#define PCLK_UART0_DIV_1    (PCLK_CCLK_DIV_1 << 06)
+#define PCLK_UART0_DIV_2    (PCLK_CCLK_DIV_2 << 06)
+#define PCLK_UART0_DIV_8    (PCLK_CCLK_DIV_8 << 06)
+
+#define PCLK_UART1_MASK     (PCLK_CCLK_MASK  << 08)           // Peripheral clock selection for the UART1
+#define PCLK_UART1_DIV_4    (PCLK_CCLK_DIV_4 << 08)
+#define PCLK_UART1_DIV_1    (PCLK_CCLK_DIV_1 << 08)
+#define PCLK_UART1_DIV_2    (PCLK_CCLK_DIV_2 << 08)
+#define PCLK_UART1_DIV_8    (PCLK_CCLK_DIV_8 << 08)
+
+#define PCLK_PWM1_MASK      (PCLK_CCLK_MASK  << 12)           // Peripheral clock selection for the PWM1
+#define PCLK_PWM1_DIV_4     (PCLK_CCLK_DIV_4 << 12)
+#define PCLK_PWM1_DIV_1     (PCLK_CCLK_DIV_1 << 12)
+#define PCLK_PWM1_DIV_2     (PCLK_CCLK_DIV_2 << 12)
+#define PCLK_PWM1_DIV_8     (PCLK_CCLK_DIV_8 << 12)
+
+#define PCLK_I2C0_MASK      (PCLK_CCLK_MASK  << 14)           // Peripheral clock selection for the I2C0
+#define PCLK_I2C0_DIV_4     (PCLK_CCLK_DIV_4 << 14)
+#define PCLK_I2C0_DIV_1     (PCLK_CCLK_DIV_1 << 14)
+#define PCLK_I2C0_DIV_2     (PCLK_CCLK_DIV_2 << 14)
+#define PCLK_I2C0_DIV_8     (PCLK_CCLK_DIV_8 << 14)
+
+#define PCLK_SPI_MASK       (PCLK_CCLK_MASK  << 16)           // Peripheral clock selection for the SPI
+#define PCLK_SPI_DIV_4      (PCLK_CCLK_DIV_4 << 16)
+#define PCLK_SPI_DIV_1      (PCLK_CCLK_DIV_1 << 16)
+#define PCLK_SPI_DIV_2      (PCLK_CCLK_DIV_2 << 16)
+#define PCLK_SPI_DIV_8      (PCLK_CCLK_DIV_8 << 16)
+
+#define PCLK_SSP1_MASK      (PCLK_CCLK_MASK  << 20)           // Peripheral clock selection for the SSP1
+#define PCLK_SSP1_DIV_4     (PCLK_CCLK_DIV_4 << 20)
+#define PCLK_SSP1_DIV_1     (PCLK_CCLK_DIV_1 << 20)
+#define PCLK_SSP1_DIV_2     (PCLK_CCLK_DIV_2 << 20)
+#define PCLK_SSP1_DIV_8     (PCLK_CCLK_DIV_8 << 20)
+
+#define PCLK_DAC_MASK       (PCLK_CCLK_MASK  << 22)           // Peripheral clock selection for the DAC
+#define PCLK_DAC_DIV_4      (PCLK_CCLK_DIV_4 << 22)
+#define PCLK_DAC_DIV_1      (PCLK_CCLK_DIV_1 << 22)
+#define PCLK_DAC_DIV_2      (PCLK_CCLK_DIV_2 << 22)
+#define PCLK_DAC_DIV_8      (PCLK_CCLK_DIV_8 << 22)
+
+#define PCLK_ADC_MASK       (PCLK_CCLK_MASK  << 24)           // Peripheral clock selection for the ADC
+#define PCLK_ADC_DIV_4      (PCLK_CCLK_DIV_4 << 24)
+#define PCLK_ADC_DIV_1      (PCLK_CCLK_DIV_1 << 24)
+#define PCLK_ADC_DIV_2      (PCLK_CCLK_DIV_2 << 24)
+#define PCLK_ADC_DIV_8      (PCLK_CCLK_DIV_8 << 24)
+
+// For PCLKSEL1:
+
 #define PCLK_QEI_MASK       0x00000003U   // Peripheral clock selection for the Quadrature Encoder Interface
 #define PCLK_QEI_DIV_4      0x00000000U
 #define PCLK_QEI_DIV_1      0x00000001U
 #define PCLK_QEI_DIV_2      0x00000002U
 #define PCLK_QEI_DIV_8      0x00000003U
-
-#define PCLK_DAC_MASK       0x00C00000U   // Peripheral clock selection for the DAC
-#define PCLK_DAC_DIV_4      0x00000000U
-#define PCLK_DAC_DIV_1      0x00400000U
-#define PCLK_DAC_DIV_2      0x00800000U
-#define PCLK_DAC_DIV_8      0x00C00000U
-
-#define PCLK_ADC_MASK       0x03000000U   // Peripheral clock selection for the ADC
-#define PCLK_ADC_DIV_4      0x00000000U
-#define PCLK_ADC_DIV_1      0x01000000U
-#define PCLK_ADC_DIV_2      0x02000000U
-#define PCLK_ADC_DIV_8      0x03000000U
 
 #define PCLK_GPIOINT_MASK   0x0000000CU   // Peripheral clock selection for GPIO interrupts
 #define PCLK_PCB_MASK       0x00000030U   // Peripheral clock selection for the Pin Connect block
@@ -275,7 +337,16 @@
 
 #define PCLK_SSP0_MASK      0x00000C00U   // Peripheral clock selection for SSP0
 #define PCLK_TIMER2_MASK    0x00003000U   // Peripheral clock selection for TIMER2
+#define PCLK_TIMER2_DIV_4   0x00000000U
+#define PCLK_TIMER2_DIV_1   0x00001000U
+#define PCLK_TIMER2_DIV_2   0x00002000U
+#define PCLK_TIMER2_DIV_8   0x00003000U
+
 #define PCLK_TIMER3_MASK    0x0000C000U   // Peripheral clock selection for TIMER3
+#define PCLK_TIMER3_DIV_4   0x00000000U
+#define PCLK_TIMER3_DIV_1   0x00004000U
+#define PCLK_TIMER3_DIV_2   0x00008000U
+#define PCLK_TIMER3_DIV_8   0x0000C000U
 
 #define PCLK_UART2_MASK     0x00030000U   // Peripheral clock selection for UART2
 #define PCLK_UART3_MASK     0x000C0000U   // Peripheral clock selection for UART3
