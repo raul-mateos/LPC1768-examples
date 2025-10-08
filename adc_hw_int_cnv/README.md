@@ -71,3 +71,5 @@ Tras ejecutar este comando la variable `x` contiene la señal adquirida desde la
 
 ![acq_02](./assets/fig_02.png)
 
+
+
