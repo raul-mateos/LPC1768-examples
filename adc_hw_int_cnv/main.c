@@ -73,8 +73,10 @@ void ADC_IRQHandler() {
   done_flag = (reg & ADC_DONE)? 1 : 0;
   
   
-  acq_buffer[acq_idx] = sample;
-  acq_idx = (acq_idx == (ACQ_BUF_LEN-1))? 0 : (acq_idx+1);
+  if (acq_idx < ACQ_BUF_LEN) {
+    acq_buffer[acq_idx++] = sample;
+  }  
+ 
 }
 
 //-------------------------------------
