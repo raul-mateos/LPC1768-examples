@@ -1,10 +1,10 @@
 #ifndef REG_MASKS_H
 #define REG_MASKS_H
 
-#define PIN_PULL_UP     0x0
-#define PIN_REPEATER    0x1
-#define PIN_NO_PULL     0x2
-#define PIN_PULL_DOWN   0x3
+#define PIN_PULL_UP     0x0U
+#define PIN_REPEATER    0x1U
+#define PIN_NO_PULL     0x2U
+#define PIN_PULL_DOWN   0x3U
 
 
 // Interrupt Register (IR):
