@@ -335,7 +335,13 @@
 #define PCLK_PCB_MASK       0x00000030U   // Peripheral clock selection for the Pin Connect block
 #define PCLK_I2C1_MASK      0x000000C0U   // Peripheral clock selection for I2C1
 
-#define PCLK_SSP0_MASK      0x00000C00U   // Peripheral clock selection for SSP0
+#define PCLK_SSP0_MASK      (PCLK_CCLK_MASK  << 10)           // Peripheral clock selection for the SSP0
+#define PCLK_SSP0_DIV_4     (PCLK_CCLK_DIV_4 << 10)
+#define PCLK_SSP0_DIV_1     (PCLK_CCLK_DIV_1 << 10)
+#define PCLK_SSP0_DIV_2     (PCLK_CCLK_DIV_2 << 10)
+#define PCLK_SSP0_DIV_8     (PCLK_CCLK_DIV_8 << 10)
+
+
 #define PCLK_TIMER2_MASK    0x00003000U   // Peripheral clock selection for TIMER2
 #define PCLK_TIMER2_DIV_4   0x00000000U
 #define PCLK_TIMER2_DIV_1   0x00001000U
@@ -436,6 +442,73 @@
 
 #define UART_RX_IRQ   RDA_INT_ID
 #define UART_TX_IRQ   THRE_INT_ID
+
+
+// SPI MODULE:
+
+// SPI Control Register
+#define SPI_BIT_EN      0x04
+#define SPI_CPHA        0x08    // Data is sampled on the second clock edge of the SCK
+#define SPI_CPOL        0x10    // SCK is active low
+#define SPI_MSTR        0x20    // The SPI operates in Master mode
+#define SPI_LSBF        0x40    // SPI data is transferred LSB (bit 0) first
+#define SPI_SPIE        0x80    // Interrupt generated each time the SPIF or MODF bits are activated
+
+#define SPI_FRAME_8     0x8   //  8 bits per transfer
+#define SPI_FRAME_9     0x9   //  9 bits per transfer
+#define SPI_FRAME_10    0xA   // 10 bits per transfer
+#define SPI_FRAME_11    0xB   // 11 bits per transfer
+#define SPI_FRAME_12    0xC   // 12 bits per transfer
+#define SPI_FRAME_13    0xD   // 13 bits per transfer
+#define SPI_FRAME_14    0xE   // 14 bits per transfer
+#define SPI_FRAME_15    0xF   // 15 bits per transfer
+#define SPI_FRAME_16    0x0   // 16 bits per transfer
+
+// SPI Status Register
+#define SPI_ABRT        0x08  // Slave abort
+#define SPI_MODF        0x10  // Mode fault
+#define SPI_ROVR        0x20  // Read overrun
+#define SPI_WCOL        0x40  // Write collision
+#define SPI_SPIF        0x80  // SPI transfer complete flag
+
+// SSP MODULE:
+
+// SSPn Control Register 0
+#define SSP_DDS_4     3       // 4-bit transfer
+#define SSP_DDS_5     4       // 5-bit transfer
+#define SSP_DDS_6     5       // 6-bit transfer
+#define SSP_DDS_7     6       // 7-bit transfer
+#define SSP_DDS_8     7       // 8-bit transfer
+#define SSP_DDS_9     8       // 9-bit transfer
+#define SSP_DDS_10    9       // 10-bit transfer
+#define SSP_DDS_11    10      // 11-bit transfer
+#define SSP_DDS_12    11      // 12-bit transfer
+#define SSP_DDS_13    12      // 13-bit transfer
+#define SSP_DDS_14    13      // 14-bit transfer
+#define SSP_DDS_15    14      // 15-bit transfer
+#define SSP_DDS_16    15      // 16-bit transfer
+
+#define SSP_FRF_SPI   0x0000
+#define SSP_FRF_TI    0x0010
+#define SSP_FRF_MW    0x0020  // Microwire
+
+#define SSP_CPOL      0x0040
+#define SSP_CPHA      0x0080
+
+#define SSP_SET_SCR(x) (((x) & 0xFF) << 8)
+
+// SSPn Control Register 1
+#define SSP_LMB       0x0001  // Loop Back Mode
+#define SSP_ENABLE    0x0002  // SSP Enable
+#define SSP_SLAVE     0x0004  // Master/Slave Mode
+#define SSP_SOD       0x0008  // Slave Output Disable
+
+// SSPn Status Register
+#define SSP_TFE       0x0001  // Transmit FIFO Empty
+#define SSP_TNF       0x0002  // Transmit FIFO Not Full
+#define SSP_RNE       0x0004  // Receive FIFO Not Empty
+#define SSP_RFF       0x0008  // Receive FIFO Full
+#define SSP_BSY       0x0010  // Busy
 
 
 #endif // REG_MASKS_H
