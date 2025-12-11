@@ -64,25 +64,26 @@ static uint8_t LCD_Code;
 static void LCD_Configuration(void)
 {
   /* Configure the LCD Control pins */
-   
-
   /* DB[0.7] = P2.0...P2.7 */ 
   /* Set Output */
-   LPC_GPIO2->FIODIR|=(1<<0) | (1<<1) | (1<<2) | (1<<3) | (1<<4) | (1<<5) | (1<<6) | (1<<7);
+  LPC_GPIO2->FIODIR|=(1<<0) | (1<<1) | (1<<2) | (1<<3) | (1<<4) | (1<<5) | (1<<6) | (1<<7);
 
   /* DB[8.15]= P0.15...P0.22 */
-  
   /* Set Output */
-   LPC_GPIO0->FIODIR|= (1<<15) | (1<<16) | (1<<17) | (1<<18) | (1<<19) | (1<<20) | (1<<21) | (1<<22);
+  LPC_GPIO0->FIODIR|= (1<<15) | (1<<16) | (1<<17) | (1<<18) | (1<<19) | (1<<20) | (1<<21) | (1<<22);
   
   /*RS = P1.27, WR = P1.28, RD = P1.29*/
   /* Set Output */
-   LPC_GPIO1->FIODIR|=(1<<27) | (1<<28) | (1<<29);
+  LPC_GPIO1->FIODIR|=(1<<27) | (1<<28) | (1<<29);
 
   /*CSA = P2.8 */
   /* Output */
-    LPC_GPIO2->FIODIR|=(1<<8);
+  LPC_GPIO2->FIODIR|=(1<<8);
 
+  LCD_CS(1);
+  LCD_RS(1);
+  LCD_RD(1);
+  LCD_WR(1);
 }
 
 /*******************************************************************************
@@ -114,14 +115,14 @@ static USE_INLINE uint16_t LCD_Read (void)
 {
   uint32_t low,high;
   
-  LPC_GPIO2->FIODIR &= ~(0x000000FF);       /* P2.0...P2.7   Input DB[0..7]   */
-  LPC_GPIO0->FIODIR &= ~(0x007F8000);       /* P0.15...P0.22 Input DB[8..15]  */
+//  LPC_GPIO2->FIODIR &= ~(0x000000FF);       /* P2.0...P2.7   Input DB[0..7]   */
+//  LPC_GPIO0->FIODIR &= ~(0x007F8000);       /* P0.15...P0.22 Input DB[8..15]  */
   low  = LPC_GPIO2->FIOPIN & 0x000000ff;    /* Read D0..D7 */
   high = LPC_GPIO0->FIOPIN & 0x007f8000;    /* Read D8..D15 */
   low |= (high >> 7);
   
-  LPC_GPIO2->FIODIR |= 0x000000FF;          /* P2.0...P2.7   Output DB[0..7]  */
-  LPC_GPIO0->FIODIR |= 0x007F8000;          /* P0.15...P0.22 Output DB[8..15] */
+//  LPC_GPIO2->FIODIR |= 0x000000FF;          /* P2.0...P2.7   Output DB[0..7]  */
+//  LPC_GPIO0->FIODIR |= 0x007F8000;          /* P0.15...P0.22 Output DB[8..15] */
   
   return  low;
 }
@@ -136,9 +137,9 @@ static USE_INLINE uint16_t LCD_Read (void)
 *******************************************************************************/
 static USE_INLINE void LCD_WriteIndex(uint16_t index)
 {
+  LCD_RD(1);          __DMB();
   LCD_CS(0);          __DMB();
   LCD_RS(0);          __DMB();
-  LCD_RD(1);          __DMB();
   LCD_Send( index );  __DMB();
   LCD_WR(0);          __DMB();
   __nop();     /* delay */
@@ -177,14 +178,25 @@ static USE_INLINE uint16_t LCD_ReadData(void)
 { 
   uint16_t value;
   
+  LPC_GPIO2->FIODIR &= ~(0x000000FF);       /* P2.0...P2.7   Input DB[0..7]   */
+  LPC_GPIO0->FIODIR &= ~(0x007F8000);       /* P0.15...P0.22 Input DB[8..15]  */
+
+  LCD_WR(1);            __DMB();
   LCD_CS(0);            __DMB();
   LCD_RS(1);            __DMB();
-  LCD_WR(1);            __DMB();
   LCD_RD(0);            __DMB();
+  __nop();
+  __nop();
+  __nop();
+  __nop();
   value = LCD_Read();   __DMB();
   
   LCD_RD(1);            __DMB();
   LCD_CS(1);            __DMB();
+  
+  LPC_GPIO2->FIODIR |= 0x000000FF;          /* P2.0...P2.7   Output DB[0..7]  */
+  LPC_GPIO0->FIODIR |= 0x007F8000;          /* P0.15...P0.22 Output DB[8..15] */
+  
   return value;
 }
 
